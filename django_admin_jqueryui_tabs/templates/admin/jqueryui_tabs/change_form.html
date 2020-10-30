@@ -19,34 +19,37 @@
     {% endif %}
   {% endfor %}
 
-  {% comment %} 渲染 tabs {% endcomment %}
-  <div id="tabs">
 
-    <ul>
+  {% if adminform.fieldsets|length > 1 or inline_admin_formsets|length > 0 %}
+    {% comment %} 渲染 tabs {% endcomment %}
+    <div id="tabs">
+
+      <ul>
+        {% for fieldset in adminform %}
+          {% if forloop.counter0 != 0 %}
+            <li><a href="#fieldset-{{ forloop.counter0 }}">{{ fieldset.name }}</a></li> 
+          {% endif %}
+        {% endfor %}
+
+        {% for inline_admin_formset in inline_admin_formsets %}
+            <li><a href="#{{ inline_admin_formset.formset.prefix }}-group">{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</a></li> 
+        {% endfor %}
+
+      </ul>
+
+      {% comment %} 渲染 tabs 的内容 {% endcomment %}
       {% for fieldset in adminform %}
         {% if forloop.counter0 != 0 %}
-          <li><a href="#fieldset-{{ forloop.counter0 }}">{{ fieldset.name }}</a></li> 
+          {% include "admin/jqueryui_tabs/includes/fieldset.html" %}
         {% endif %}
       {% endfor %}
 
       {% for inline_admin_formset in inline_admin_formsets %}
-          <li><a href="#{{ inline_admin_formset.formset.prefix }}-group">{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</a></li> 
+          {% include inline_admin_formset.opts.template %}
       {% endfor %}
 
-    </ul>
-
-    {% comment %} 渲染 tabs 的内容 {% endcomment %}
-    {% for fieldset in adminform %}
-      {% if forloop.counter0 != 0 %}
-        {% include "admin/jqueryui_tabs/includes/fieldset.html" %}
-      {% endif %}
-    {% endfor %}
-
-    {% for inline_admin_formset in inline_admin_formsets %}
-        {% include inline_admin_formset.opts.template %}
-    {% endfor %}
-
-  </div>
+    </div>
+  {% endif %}
 
 {% endblock %}
 
