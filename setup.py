@@ -10,7 +10,7 @@ with open(path.join(basedir, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='django-admin-jqueryui-tabs',  # 包名称
-    version='0.1.0',  # 版本
+    version='0.1.1',  # 版本
     url='https://github.com/AngelLiang/django-admin-jqueryui-tabs',
     license='MIT',
     author='AngelLiang',
